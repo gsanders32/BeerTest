@@ -13,7 +13,7 @@ export class BeerTableComponent implements OnInit {
   @Input()page = 1;
   @Input()count = 25;
 
-  dataSource: MatTableDataSource<IBeer>;
+  dataSource;
   displayedColumns: string[] = [ 'id', 'name', 'description', 'image_url' ];
 
   constructor(private beerService: BeerService) { }
@@ -28,18 +28,23 @@ export class BeerTableComponent implements OnInit {
 
   async ngOnInit() {
     const data = await this.beerService.getAll(this.count);
-    this.dataSource = new MatTableDataSource(data);
-    this.matTablePageSort();
+    this.matTableData(data);
   }
 
   async getByCount(){
     const data = await this.beerService.getAll(this.count);
-    this.dataSource = new MatTableDataSource(data);
-    this.matTablePageSort();
+    this.matTableData(data);
   }
-  
+
+  async addBeerToTable(){
+    this.count++;
+    const data = await this.beerService.getAll(this.count);
+    this.matTableData(data);
+  }
+
   // Updates Sort And Paginator
-  matTablePageSort(){
+  matTableData(data){
+    this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
