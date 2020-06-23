@@ -11,4 +11,5 @@ export class BeerService {
   async getAll(){
     const data = await this.httpService.get('beers');
     return data;
+  }
 }
