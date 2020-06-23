@@ -1,17 +1,28 @@
+
 <div class="beerTable" >
+  <h1>Beer Table</h1>
     <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
-</mat-form-field>
-
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <input matInput (keyup)="applyFilter($event)" placeholder="Eg. IPA">
+  </mat-form-field>
   
+  <div class="row">
+    <div class="col">
+      <label>Beers per request = {{count}}</label>
+      <mat-slider thumbLabel  step="5" tickInterval="16" max="80" [(ngModel)]="count" (change)="getByCount()"></mat-slider>
+    </div>
+  </div>
+
+  <br>
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
-  
+
     <!-- Name Column -->
     <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
@@ -23,17 +34,16 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
-  
+
     <!-- Image Column -->
     <ng-container matColumnDef="image_url">
       <th mat-header-cell *matHeaderCellDef > Image </th>
       <td mat-cell *matCellDef="let element"> <img height="7%" [src]="element.image_url"> </td>
     </ng-container>
-  
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    
+
   </table>
   <mat-paginator [pageSizeOptions]="[3, 6, 12, dataSource.data.length]" showFirstLastButtons></mat-paginator>
-
 </div>

@@ -8,8 +8,8 @@ export class BeerService {
 
   constructor(private httpService: ApiService) { }
 
-  async getAll(){
-    const data = await this.httpService.get('beers');
+  async getAll(count: number){
+    const data = await this.httpService.get('beers', count);
     return data;
   }
 }

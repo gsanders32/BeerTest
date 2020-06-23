@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { BeerService } from '../services/beer.service';
 import { IBeer } from '../interfaces/ibeer';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +10,8 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./beer-table.component.css']
 })
 export class BeerTableComponent implements OnInit {
+  @Input()page = 1;
+  @Input()count = 25;
 
   dataSource: MatTableDataSource<IBeer>;
   displayedColumns: string[] = [ 'id', 'name', 'description', 'image_url' ];
@@ -25,8 +27,19 @@ export class BeerTableComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const data = await this.beerService.getAll();
+    const data = await this.beerService.getAll(this.count);
     this.dataSource = new MatTableDataSource(data);
+    this.matTablePageSort();
+  }
+
+  async getByCount(){
+    const data = await this.beerService.getAll(this.count);
+    this.dataSource = new MatTableDataSource(data);
+    this.matTablePageSort();
+  }
+  
+  // Updates Sort And Paginator
+  matTablePageSort(){
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
